@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        padding: 0;
+      }
+      .Navbar {
+        position: relative;
+        display: flex;
+        background-color: rgb(240, 240, 240);
+        margin-top: 1px;
+      }
+      .buttons {
+        display: flex;
+        position: absolute;
+        top: 20px;
+        right: 0;
+      }
+      button {
+        font-size: 20px;
+        border: none;
+        background-color: rgb(240, 240, 240);
+        color: rgb(100, 100, 99);
+      }
+      button:hover {
+        font-size: 20px;
+        border: none;
+        background-color: rgb(100, 100, 99);
+        color: rgb(240, 240, 240);
+      }
+
+      #p1 {
+        font-size: 25px;
+        margin: 1%;
+      }
+      .create {
+        padding-top: 30px;
+        padding-left: 30%;
+      }
+      #p4 {
+        font-size: 35px;
+      }
+      #postTitle {
+        font-size: 35px;
+        margin-bottom: 20px;
+      }
+      #p5 {
+        font-size: 25px;
+        margin: 20px;
+        margin-left: 0;
+      }
+      #p6 {
+        font-size: 25px;
+        margin: 20px;
+        margin-left: 0;
+      }
+      #postContent {
+        width: 600px;
+        margin: 20px;
+        margin-left: 0;
+      }
+      #submit {
+        font-size: 25px;
+        border: 1px solid rgb(77, 115, 220);
+        background-color: #007bff;
+        color: white;
+        border-radius: 5px;
+        padding: 7px;
+      }
+      #submit:hover {
+        background-color: white;
+        color: #007bff;
+      }
+      #p8 {
+        font-size: 40px;
+      }
+      #postcon {
+        font-size: 25px;
+      }
+      #postcss {
+        margin: 20px;
+        border: 2px solid black;
+        box-shadow: 5px black;
+        padding: 10px;
+        text-align: center;
+      }
+      #logo-black{
+        margin:10px;
+        height: 40px;
+      }
+      #postImg{
+        height: 200px;
+        width: 300px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="Navbar">
+        <img src="logo-no-background.png" id="logo-black">
+      
+      <div class="buttons">
+        <a href="about.html"><button >Home</button></a>
+        <a href="login.html"><button>Login</button></a>
+        <a href="register.html"><button>Register</button></a>
+      </div>
+    </div>
+
+    <center><p id="p8">CREATE:</p></center>
+    <div class="create">
+      <form action="/create" method="post" enctype="multipart/form-data">
+        <span id="p4">Post Title: </span
+        ><input type="text" name="Title" id="postTitle" /><br />
+        <span id="p5">Write your content below:</span><br />
+        <span id="p6">Post Content & Image:</span><input type="file" name="profileImage"><br />
+        <textarea id="postContent" name="Content"></textarea><br />
+        <button id="submit" type="submit">Submit</button>
+      </form>
+    </div>
+
+    <div class="posts">
+      <center><p id="p8">POSTS:</p></center>
+      <span id="p5"
+        >Get Posts: <button id="submit" onclick="postt()">Get Posts</button>
+        <span> </span
+        ><button id="submit" onclick="postt()">Refresh</button></span
+      >
+      <span id="postcon"></span>
+    </div>
+    <script>
+      function postt() {
+        var x = "";
+        var n = 0;
+        setTimeout(() => {
+          fetch("/createP")
+            .then((response) => response.json())
+            .then((posts) => {
+              posts.forEach((post) => {
+                var w = ++n;
+                x += `<div id="postcss">Post ${w} :<br>Title: ${post.Title} <br> Content: ${post.Content}<br><img id="postImg" src="${post.ImagePath}"><br>
+                    <button class="update" id="${w}" onclick="update(${w})">Update</button><span>  </span><button class="delete" id="${w}" onclick="deleted(${w})">Delete</button> </div>`;
+              });
+              document.getElementById("postcon").innerHTML = x;
+            });
+        }, 2000);
+      }
+      function update(id) {
+        var t = prompt("Enter Post Title");
+        var c = prompt("Enter Post Content");
+
+        var url = `/update/${id}?title=${t}&content=${c}`;
+        fetch(url, {
+          method: "PATCH",
+        })
+          .then((response) => response.text())
+          .then((message) => alert(message));
+      }
+      function deleted(id) {
+        var t = confirm(
+          `Please confirm ,do you want to delete post with id:${id}?`
+        );
+        
+        if (t) {
+          var url = `/delete/${id}`;
+          fetch(url, {
+            method: "DELETE",
+          })
+            .then((response) => response.text())
+            .then((message) => alert(message));
+        }
+      }
+    </script>
+  </body>
+</html>

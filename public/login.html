@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <style>
+    body {
+      padding: 0;
+    }
+
+    .Navbar {
+      position: relative;
+      display: flex;
+      background-color: rgb(240, 240, 240);
+      margin-top: 1px;
+    }
+
+    .buttons {
+      display: flex;
+      position: absolute;
+      top: 20px;
+      right: 0;
+    }
+
+    button {
+      font-size: 20px;
+      border: none;
+      background-color: rgb(240, 240, 240);
+      color: rgb(100, 100, 99);
+    }
+
+    #p1 {
+      font-size: 25px;
+      margin: 1%;
+    }
+
+    .login {
+      margin-left: 35%;
+    }
+
+    #p3 {
+      font-size: 45px;
+      margin: 0;
+      margin-top: 20px;
+    }
+
+    #p4 {
+      font-size: 20px;
+      margin: 0;
+    }
+
+    #login_email,
+    #login_password {
+      font-size: 17px;
+      margin-top: 0;
+      margin-bottom: 10px;
+      padding: 5px;
+      width: 50%;
+    }
+
+    #logbtn {
+      margin-top: 20px;
+      font-size: 25px;
+      border: 1px solid rgb(77, 115, 220);
+      background-color: #007bff;
+      color: white;
+      border-radius: 5px;
+      padding: 7px;
+    }
+
+    #logbtn:hover {
+      background-color: white;
+      color: #007bff;
+    }
+    
+#logo-black{
+  margin:10px;
+  height: 40px;
+}
+</style>
+  <script>
+    var tok;
+    async function login(event) {
+      event.preventDefault();
+      const login_email = document.getElementById("login_email").value;
+      const login_password = document.getElementById("login_password").value;
+
+      const response = await fetch("/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ login_email, login_password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        tok = data.token;
+        loadprofile();
+      } else {
+        alert(data.error || "Login failed");
+      }
+    }
+
+    async function loadprofile() {
+      const token1 = tok;
+      if (!token1) {
+        alert("No token found!, please login first");
+        return;
+      }
+
+      const response = await fetch("/profile", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token1}`,
+        },
+      });
+
+      const profileData = await response.json();
+
+      if (response.ok) {
+        window.location.href = "/about.html";
+      } else {
+        alert("Failed to load profile");
+      }
+    }
+  </script>
+</head>
+
+</head>
+<body>
+<div class="Navbar">
+  <img src="logo-no-background.png" id="logo-black">
+    <div class="buttons">
+      <a href="about.html"><button >Home</button></a>
+      <a href="login.html"><button>Login</button></a>
+      <a href="register.html"><button>Register</button></a>
+    </div>
+  </div>
+  <div class="login">
+    <form onsubmit="login(event)">
+      <p id="p3">Login</p>
+      <br />
+      <p id="p4">Email Address:</p>
+      <br />
+      <input type="email" name="login_email" id="login_email" placeholder="Enter email" /><br />
+      <p id="p4">Password:</p>
+      <br />
+      <input type="password" name="login_password" id="login_password" placeholder="Password" /><br />
+      <button onclick="login(event)" id="logbtn">Login</button>
+    </form>
+  </div>
+</body>
+
+</html>

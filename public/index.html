@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BlogHive</title>
+    <style>
+      body {
+        padding: 0;
+        background-color: black;
+      }
+      .Navbar {
+        position: relative;
+        display: flex;
+        background-color: rgb(255, 255, 255);
+        margin-top: 1px;
+      }
+      .buttons {
+        display: flex;
+        position: absolute;
+        top: 20px;
+        right: 0;
+      }
+      button {
+        font-size: 20px;
+        border: none;
+        background-color: rgb(255, 255, 255);
+        color: rgb(0, 0, 0);
+      }
+      #p1 {
+        font-size: 25px;
+        margin: 1%;
+      }
+      .body{
+        display: flex;
+      }
+      #body-logo{
+        margin: 20px;
+        height: 655px;
+      }
+      .right{
+        width: 50%;
+        margin: 20px;;
+        background-color: rgb(255, 255, 255);
+        
+        text-align: center;
+        padding-top: 15%;
+        
+      }
+      #one{
+        font-size: 70px;
+      }
+      #two{
+        margin: 20px;
+        font-size: 40px;
+      }
+      #SignUp:hover{
+        margin: 20px;
+        font-size: 40px;
+        background-color: black;
+        color: white;
+        border:1px solid white;
+        border-radius: 20px;
+      }
+      #SignUp{
+        margin: 20px;
+        font-size: 40px;
+        background-color: white;
+        color: black;
+        border:1px solid black;
+        transition: 2s
+      }
+      
+      #logo-black{
+        margin:10px;
+        height: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="Navbar">
+        <img src="logo-no-background.png" id="logo-black">
+      
+      <div class="buttons">
+        <button onclick="homeclck()">Home</button>
+        <a href="login.html"><button>Login</button></a>
+        <a href="register.html"><button>Register</button></a>
+      </div>
+    </div>
+
+    <div class="body">
+        <img src="logo-white.png" id="body-logo">
+        <div class="right">
+            <span id="one">Hello World:)!</span><br>
+            <span id="two">Welcome to BlogHive.<br> Idea of a dynamic community of bloggers buzzing with activity and creativity.</span><br>
+            <button id="SignUp">SignUp</button>
+        </div>
+    </div>
+    <script>
+        function homeclck(){
+            alert("Plese Login or SignUp first!")
+        }
+    </script>
+  </body>
+</html>
